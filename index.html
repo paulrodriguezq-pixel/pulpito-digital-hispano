@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Púlpito Digital Hispano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1e293b, #020617);
+      color: #e5e7eb;
+    }
+    html { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="logo.png" alt="Púlpito Digital Hispano" class="h-12 w-12 rounded-xl object-cover shadow-lg shadow-indigo-500/40" />
+        <div>
+          <p class="text-sm font-semibold">Púlpito Digital Hispano</p>
+          <p class="text-xs text-slate-400">Panel seguro de sermones en PDF para pastores</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-4 text-sm">
+        <a href="#inicio" class="text-slate-300 hover:text-white">Inicio</a>
+        <a href="#panel" class="text-slate-300 hover:text-white">Panel</a>
+        <a href="#subir" class="text-slate-300 hover:text-white">Subir sermón</a>
+        <a href="#planes" class="text-slate-300 hover:text-white">Planes</a>
+        <a href="#plagio" class="text-slate-300 hover:text-white">Plagio</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="py-10 md:py-14 border-b border-slate-800 bg-gradient-to-b from-slate-950 via-slate-950 to-slate-900">
+    <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+      <div class="space-y-4">
+        <span class="inline-flex items-center rounded-full bg-indigo-500/15 px-3 py-1 text-[11px] font-semibold text-indigo-200 ring-1 ring-indigo-500/40">
+          🎙️ Plataforma para predicadores hispanos
+        </span>
+        <h1 class="text-3xl md:text-4xl font-bold leading-tight">
+          Administra, protege y monetiza tus
+          <span class="text-indigo-300">sermones en PDF</span>.
+        </h1>
+        <p class="text-sm text-slate-300">
+          Púlpito Digital Hispano te permite subir bosquejos en PDF, controlar quién ve y descarga,
+          marcar archivos PREMIUM y registrar denuncias por plagio, todo desde un solo panel.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button
+            onclick="document.getElementById('panel').scrollIntoView({behavior:'smooth'})"
+            class="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 hover:bg-indigo-400"
+          >
+            Entrar al panel pastoral
+          </button>
+          <button
+            onclick="document.getElementById('planes').scrollIntoView({behavior:'smooth'})"
+            class="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm text-slate-100 hover:bg-white/10"
+          >
+            Ver niveles de suscripción
+          </button>
+        </div>
+      </div>
+      <div class="hidden md:block">
+        <div class="relative">
+          <div class="absolute -inset-8 bg-indigo-500/10 blur-3xl rounded-[40px]"></div>
+          <div class="relative rounded-[28px] border border-white/10 bg-slate-950/90 shadow-2xl shadow-indigo-900/60 overflow-hidden">
+            <div class="flex items-center justify-between border-b border-white/10 bg-slate-900/80 px-4 py-2">
+              <div class="flex items-center gap-2 text-[11px] text-slate-300">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="ml-2">Panel Pastoral</span>
+              </div>
+              <span class="text-[10px] text-slate-400">Modo seguro</span>
+            </div>
+            <div class="p-4 space-y-3 text-[11px]">
+              <div class="flex justify-between items-center">
+                <p class="font-semibold text-slate-100">Estadísticas de hoy</p>
+                <span class="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] text-indigo-100">
+                  Plan BÁSICO
+                </span>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between text-slate-300">
+                  <span>Visualizaciones hoy</span><span>1 / 1</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div class="h-1.5 bg-gradient-to-r from-indigo-400 to-indigo-200 w-full"></div>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <div class="flex justify-between text-slate-300">
+                  <span>Descargas hoy</span><span>0 / 0</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div class="h-1.5 bg-gradient-to-r from-violet-400 to-violet-200 w-0"></div>
+                </div>
+              </div>
+              <div class="mt-3 border-t border-white/10 pt-3">
+                <p class="text-slate-300 mb-1">Sermón destacado (PDF)</p>
+                <p class="font-semibold text-slate-50">“La gracia en tiempos difíciles”</p>
+                <p class="text-[10px] text-slate-400 mt-1">
+                  Vista protegida con bloqueo de copiar/pegar y advertencias si se intenta capturar pantalla.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL / DASHBOARD -->
+  <section id="panel" class="border-t border-slate-800 bg-slate-950/95 py-10">
+    <div class="max-w-6xl mx-auto px-4 space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-semibold">Panel de Control</h2>
+          <p class="text-xs text-slate-400">
+            Estadísticas generales y biblioteca de sermones (PDF) con filtros por categoría.
+          </p>
+        </div>
+        <div class="text-xs text-right">
+          <p class="text-slate-400">Plan actual:</p>
+          <p id="labelPlan" class="font-semibold text-indigo-200">BÁSICO (Gratis)</p>
+          <p id="labelPlanDetalle" class="text-[11px] text-slate-400">
+            1 visualización diaria · 0 descargas
+          </p>
+        </div>
+      </div>
+
+      <!-- Estadísticas -->
+      <div class="grid md:grid-cols-3 gap-4 text-center text-sm">
+        <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
+          <p class="text-slate-400 text-xs">Sermones subidos (PDF)</p>
+          <p id="statSubidos" class="text-2xl font-bold mt-1">0</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
+          <p class="text-slate-400 text-xs">Visualizaciones totales</p>
+          <p id="statVistas" class="text-2xl font-bold mt-1">0</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
+          <p class="text-slate-400 text-xs">Descargas totales</p>
+          <p id="statDescargas" class="text-2xl font-bold mt-1">0</p>
+        </div>
+      </div>
+
+      <!-- Biblioteca -->
+      <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-3">
+          <div>
+            <h3 class="text-sm font-semibold">Biblioteca de sermones (PDF)</h3>
+            <p class="text-[11px] text-slate-400">
+              Filtra por categoría y visualiza cada sermón con control de uso según el plan.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 items-center text-xs">
+            <label class="text-slate-300">Categoría:</label>
+            <select id="filtroCategoria" class="bg-slate-900 border border-white/10 rounded-xl px-2 py-1 text-xs">
+              <option value="todas">Todas</option>
+            </select>
+          </div>
+        </div>
+        <div id="sermonList" class="space-y-3 text-xs">
+          <!-- Se rellena por JS -->
+        </div>
+        <p id="sinSermones" class="text-[11px] text-slate-500 mt-2 hidden">
+          No hay sermones aún. Sube el primero en la sección “Subir sermón”.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBIR SERMON (PDF) -->
+  <section id="subir" class="border-t border-slate-800 bg-slate-950 py-10">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-xl font-semibold mb-2">Subir nuevo sermón (PDF)</h2>
+      <p class="text-xs text-slate-400 mb-4">
+        Completa los campos para enviar un sermón a la biblioteca compartida. El archivo llegará al equipo de Púlpito Digital Hispano para revisión y publicación.
+      </p>
+      <form id="formSubir" class="space-y-3 text-sm">
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Título</label>
+          <input id="titulo" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" required />
+        </div>
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Resumen</label>
+          <input id="resumen" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" required />
+        </div>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">Categoría</label>
+            <input id="categoria" placeholder="Fe, Liderazgo, Familia..." class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
+          </div>
+          <div>
+            <label class="block text-xs text-slate-300 mb-1">Datos de contacto del pastor (WhatsApp, correo, iglesia)</label>
+            <input id="contacto" type="text" min="0" step="0.01" placeholder="Ej: 3.00" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-300 mb-1">Archivo PDF del sermón</label>
+          <input id="archivoPdf" type="file" accept="application/pdf" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" required />
+          <p class="text-[10px] text-slate-500 mt-1">
+            Por ahora solo guardamos el nombre del archivo. En la versión completa se almacenará el PDF real en el servidor.
+          </p>
+        </div>
+        <button class="mt-2 inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2 text-xs font-semibold text-white hover:bg-emerald-400">
+          Enviar sermón para revisión
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- PLANES -->
+  <section id="planes" class="border-t border-slate-800 bg-slate-950 py-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-xl font-semibold text-center mb-2">Niveles de suscripción</h2>
+      <p class="text-xs text-slate-400 text-center mb-6">
+        Modelo de negocio dentro de tu plataforma. Los límites se aplican en este panel de forma simulada (front-end).
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-5 text-sm">
+        <!-- BÁSICO -->
+        <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-5 flex flex-col">
+          <p class="text-xs text-slate-300 font-semibold">BÁSICO</p>
+          <h3 class="text-lg font-semibold mt-1">Gratis</h3>
+          <p class="text-xs text-slate-400 mt-1">
+            Para probar la plataforma y gestionar tus primeros sermones.
+          </p>
+          <p class="text-2xl font-bold text-emerald-300 mt-3">$0</p>
+          <ul class="mt-3 space-y-1 text-xs text-slate-300 flex-1">
+            <li>✔ 3 visualizaciones diarias</li>
+            <li>✔ 1 descarga diaria</li>
+            <li>✔ Biblioteca y panel básico</li>
+          </ul>
+          <button onclick="setPlan('basico')" class="mt-4 rounded-xl bg-emerald-500 px-3 py-2 text-xs font-semibold text-slate-900 hover:bg-emerald-400">
+            Activar BÁSICO
+          </button>
+        </div>
+
+        <!-- PLATA -->
+        <div class="rounded-2xl border-2 border-indigo-400 bg-slate-900/90 p-5 flex flex-col shadow-lg shadow-indigo-900/60">
+          <p class="text-xs text-slate-300 font-semibold">PLATA</p>
+          <h3 class="text-lg font-semibold mt-1">Más descargas y vistas</h3>
+          <p class="text-xs text-slate-400 mt-1">
+            Ideal para iglesias con uso frecuente de materiales digitales.
+          </p>
+          <p class="text-2xl font-bold text-indigo-200 mt-3">$3.50</p>
+          <p class="text-[11px] text-slate-400 mb-1">por mes</p>
+          <ul class="mt-2 space-y-1 text-xs text-slate-200 flex-1">
+            <li>✔ Visualizaciones ilimitadas</li>
+            <li>✔ Descargas ilimitadas</li>
+            <li>✔ Subir todos tus sermones en PDF</li>
+          </ul>
+          <button onclick="setPlan('plata')" class="mt-3 rounded-xl bg-indigo-500 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-400">
+            Activar PLATA
+          </button>
+
+          <!-- Pasarela inteligente -->
+          <div class="mt-3 text-[11px] text-slate-400">
+            <p class="mb-1">Pago real de suscripción:</p>
+            <!-- Ecuador: PayPhone -->
+            <a
+              data-pay-ec="plata"
+              href="https://ppls.me/uis5X6KZy7nE4MPvoKFAA"
+              target="_blank"
+              class="block w-full rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white text-xs font-semibold text-center py-2 mb-1"
+            >
+              Pagar con PayPhone (Ecuador) 📲
+            </a>
+            <!-- Internacional: PayPal/Stripe (ejemplo) -->
+            <a
+              data-pay-int="plata"
+              href="https://www.paypal.com/ncp/payment/82VHJTPUYXQY6"
+              target="_blank"
+              class="block w-full rounded-xl bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold text-center py-2 mb-1"
+            >
+              Pagar con tarjeta (PayPal / Stripe) 🌎
+            </a>
+            <p class="text-[10px] text-slate-500">
+              *Pagos internacionales procesados a través de PayPal.
+            </p>
+          </div>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAGIO -->
+  <section id="plagio" class="border-t border-slate-800 bg-slate-950 py-10">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-xl font-semibold mb-2">Sistema de denuncia de plagios o sugerencia</h2>
+      <p class="text-xs text-slate-400 mb-4">
+        Si detectas plagio de un sermón o deseas enviar una sugerencia sobre la plataforma, puedes hacerlo desde aquí.
+      </p>
+      <div class="rounded-2xl border border-white/10 bg-slate-900/80 p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs">
+        <div>
+          <p class="text-slate-200 font-semibold">Protección de tus mensajes</p>
+          <p class="text-slate-400">
+            La plataforma puede registrar incidentes de plagio para ser tratados por el administrador o equipo legal del ministerio.
+          </p>
+        </div>
+        <button
+          onclick="openReportModal()"
+          class="inline-flex items-center justify-center rounded-xl border border-rose-500/60 bg-rose-500/20 px-4 py-2 text-[11px] font-semibold text-rose-50 hover:bg-rose-500/30"
+        >
+          Enviar denuncia o sugerencia
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800 bg-slate-950/95">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-[11px] text-slate-500">
+      <p>© <span id="year"></span> Púlpito Digital Hispano. Panel pastoral seguro para tus sermones en PDF.</p>
+      <p>Contenido protegido con bloqueo básico de copia y monitoreo de uso.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL VISOR SERMON -->
+  <div id="viewerModal" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70">
+    <div class="relative w-[95vw] max-w-3xl max-h-[85vh] rounded-2xl border border-white/15 bg-slate-950/95 p-4 flex flex-col">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <p id="viewerTitle" class="text-sm font-semibold text-slate-50"></p>
+          <p id="viewerMeta" class="text-[11px] text-slate-400"></p>
+        </div>
+        <button
+          onclick="closeViewer()"
+          class="rounded-full bg-slate-900/80 border border-slate-600 px-2 py-1 text-[11px] hover:bg-rose-500/30 hover:border-rose-400"
+        >
+          Cerrar
+        </button>
+      </div>
+      <div class="mb-2 text-[11px] text-amber-300">
+        🔐 Vista segura: bloqueado copiar/pegar, clic derecho y algunos atajos. Evita compartir este contenido sin autorización.
+      </div>
+      <div
+        id="viewerContent"
+        class="flex-1 overflow-y-auto rounded-xl bg-slate-900/80 border border-white/10 p-3 text-xs leading-relaxed select-none"
+        onselectstart="return false"
+      ></div>
+    </div>
+  </div>
+
+  <!-- MODAL PLAGIO -->
+  <div id="reportModal" class="fixed inset-0 z-40 hidden items-center justify-center bg-black/70">
+    <div class="relative w-[95vw] max-w-lg rounded-2xl border border-white/15 bg-slate-950/95 p-4 text-xs">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm font-semibold text-slate-50">Denuncia de plagio o sugerencia</p>
+        <button
+          onclick="closeReportModal()"
+          class="rounded-full bg-slate-900/80 border border-slate-600 px-2 py-1 text-[11px] hover:bg-rose-500/30 hover:border-rose-400"
+        >
+          Cerrar
+        </button>
+      </div>
+      <form id="formPlagio" class="space-y-2">
+        <div>
+          <label class="block text-[11px] text-slate-300 mb-1">Tipo de incidente</label>
+          <select id="tipoPlagio" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs">
+            <option value="copia">Copia no autorizada</option>
+            <option value="reventa">Reventa ilegal</option>
+            <option value="otro">Otro</option>
+            <option value="sugerencia">Sugerencia o comentario</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-300 mb-1">Descripción</label>
+          <textarea id="descPlagio" rows="3" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" required></textarea>
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-300 mb-1">Enlace o evidencia (opcional)</label>
+          <input id="urlPlagio" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
+        </div>
+        <div>
+          <label class="block text-[11px] text-slate-300 mb-1">Contacto (correo o WhatsApp)</label>
+          <input id="contactoPlagio" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
+        </div>
+        <button class="mt-2 inline-flex items-center justify-center rounded-xl bg-rose-500 px-4 py-2 text-xs font-semibold text-white hover:bg-rose-400">
+          Enviar mensaje
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LÓGICA JS -->
+  
+  <script>
+    // URL del servidor (Google Apps Script) que guarda los PDF en Drive
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzki52Vww5B0pa4a9X1wZyIOwANi2ZSV9U8ZzYRPZ9RnpAexlu6_qHhIRowj1q3glzGfw/exec";
+
+    // Año footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Configuración de planes (lógica de límites en el panel)
+    const PLANES = {
+      basico: {
+        id: "basico",
+        nombre: "BÁSICO (Gratis)",
+        vistasDia: 3,
+        descargasDia: 1,
+        detalle: "Hasta 3 visualizaciones diarias · 1 descarga diaria · Hasta 3 sermones en PDF",
+      },
+      plata: {
+        id: "plata",
+        nombre: "PLATA ($3.50/mes)",
+        vistasDia: Infinity,
+        descargasDia: Infinity,
+        detalle: "Visualizaciones y descargas ilimitadas · Subir todos tus sermones en PDF",
+      },
+    };
+    // Aseguramos que el plan guardado exista (por si antes había plan ORO)
+    let currentPlan = localStorage.getItem("pd_plan") || "basico";
+    if (!PLANES[currentPlan]) {
+      currentPlan = "basico";
+    }
+
+
+    // Estado inicial desde localStorage
+        let usage = JSON.parse(
+      localStorage.getItem("pd_usage") ||
+        JSON.stringify({
+          fecha: new Date().toISOString().slice(0, 10),
+          vistasHoy: 0,
+          descargasHoy: 0,
+          vistasTotales: 0,
+          descargasTotales: 0,
+        })
+    );
+    let sermones = JSON.parse(localStorage.getItem("pd_sermones") || "[]");
+
+    // Sermones de ejemplo si no hay
+    if (sermones.length === 0) {
+      sermones = [
+        {
+          id: "s1",
+          titulo: "La gracia en tiempos difíciles",
+          resumen: "Un sermón para fortalecer la fe en medio de la prueba.",
+          categoria: "Fe y consuelo",
+          contenido: "Ejemplo de bosquejo (en PDF en la vida real).",
+          archivo: "Gracia-en-tiempos-dificiles.pdf",
+                    downloadUrl: "",
+premium: false,
+          precio: 0,
+          vistas: 0,
+          descargas: 0,
+        },
+        {
+          id: "s2",
+          titulo: "El poder del perdón",
+          resumen: "Reflexión sobre el perdón y la restauración espiritual.",
+          categoria: "Relaciones",
+          contenido: "Ejemplo de bosquejo premium.",
+          archivo: "Poder-del-perdon.pdf",
+                    downloadUrl: "",
+premium: true,
+          precio: 3.5,
+          vistas: 0,
+          descargas: 0,
+        },
+      ];
+      saveState();
+    }
+
+    function verificarFecha() {
+      const hoy = new Date().toISOString().slice(0, 10);
+      if (usage.fecha !== hoy) {
+        usage.fecha = hoy;
+        usage.vistasHoy = 0;
+        usage.descargasHoy = 0;
+        saveState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem("pd_plan", currentPlan);
+      localStorage.setItem("pd_usage", JSON.stringify(usage));
+      localStorage.setItem("pd_sermones", JSON.stringify(sermones));
+    }
+
+    function updatePlanUI() {
+      const plan = PLANES[currentPlan];
+      document.getElementById("labelPlan").textContent = plan.nombre;
+      document.getElementById("labelPlanDetalle").textContent = plan.detalle;
+    }
+
+    function updateStatsUI() {
+      document.getElementById("statSubidos").textContent = sermones.length;
+      document.getElementById("statVistas").textContent = usage.vistasTotales;
+      document.getElementById("statDescargas").textContent = usage.descargasTotales;
+    }
+
+    function updateCategoriasUI() {
+      const select = document.getElementById("filtroCategoria");
+      const categorias = new Set();
+      sermones.forEach((s) => {
+        if (s.categoria && s.categoria.trim() !== "") {
+          categorias.add(s.categoria.trim());
+        }
+      });
+      const valorActual = select.value;
+      select.innerHTML = '<option value="todas">Todas</option>';
+      categorias.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+      });
+      if ([...categorias, "todas"].includes(valorActual)) {
+        select.value = valorActual;
+      }
+    }
+
+    function renderSermones() {
+      const cont = document.getElementById("sermonList");
+      const sinSermones = document.getElementById("sinSermones");
+      const filtro = document.getElementById("filtroCategoria").value;
+
+      cont.innerHTML = "";
+      let filtrados = sermones;
+      if (filtro !== "todas") {
+        filtrados = sermones.filter((s) => s.categoria === filtro);
+      }
+
+      if (filtrados.length === 0) {
+        sinSermones.classList.remove("hidden");
+        return;
+      } else {
+        sinSermones.classList.add("hidden");
+      }
+
+      filtrados.forEach((s) => {
+        const planBadge = s.premium
+          ? '<span class="rounded-full bg-yellow-500/20 px-2 py-0.5 text-[10px] text-yellow-100 mr-1">PREMIUM</span>'
+          : '<span class="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[10px] text-emerald-100 mr-1">Estándar</span>';
+
+        const archivoLabel = s.archivo ? ` · PDF: ${s.archivo}` : "";
+
+        const card = document.createElement("div");
+        card.className =
+          "flex flex-col md:flex-row md:items-center md:justify-between gap-3 rounded-xl border border-white/10 bg-slate-900/90 px-3 py-2.5";
+        card.innerHTML = `
+          <div>
+            <p class="text-[13px] font-semibold text-slate-50">${s.titulo}</p>
+            <p class="text-[11px] text-slate-400">${s.resumen}</p>
+            <p class="mt-1 text-[10px] text-slate-500">
+              ${planBadge}
+              <span class="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-300">${s.categoria || "Sin categoría"}</span>
+              <span class="text-[10px] text-slate-400">${archivoLabel}</span>
+            </p>
+          </div>
+          <div class="flex items-center gap-2 text-[11px]">
+            <div class="hidden md:block text-right text-slate-400 text-[10px] mr-2">
+              Vistas: <span>${s.vistas || 0}</span><br>
+              Descargas: <span>${s.descargas || 0}</span>
+            </div>
+            <button
+              class="btn-ver rounded-lg bg-white/5 border border-white/15 px-2 py-1 hover:bg-white/10"
+              data-id="${s.id}"
+            >
+              Ver
+            </button>
+            <button
+              class="btn-descargar rounded-lg bg-white/5 border border-white/15 px-2 py-1 hover:bg-white/10"
+              data-id="${s.id}"
+            >
+              Descargar
+            </button>
+          </div>
+        `;
+        cont.appendChild(card);
+      });
+
+      cont.querySelectorAll(".btn-ver").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          handleView(btn.getAttribute("data-id"));
+        });
+      });
+      cont.querySelectorAll(".btn-descargar").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          handleDownload(btn.getAttribute("data-id"));
+        });
+      });
+    }
+
+    function setPlan(planId) {
+      currentPlan = planId;
+      saveState();
+      updatePlanUI();
+      alert("Plan actualizado a: " + PLANES[currentPlan].nombre + ".");
+    }
+    window.setPlan = setPlan;
+
+    function handleView(id) {
+      verificarFecha();
+      const plan = PLANES[currentPlan];
+      const s = sermones.find((x) => x.id === id);
+      if (!s) return;
+
+      if (plan.vistasDia !== Infinity && usage.vistasHoy >= plan.vistasDia) {
+        alert("Has alcanzado el límite de visualizaciones de tu plan para hoy.");
+        return;
+      }
+
+      usage.vistasHoy++;
+      usage.vistasTotales++;
+      s.vistas = (s.vistas || 0) + 1;
+      saveState();
+      updateStatsUI();
+      renderSermones();
+
+      document.getElementById("viewerTitle").textContent = s.titulo;
+      let meta = s.categoria ? s.categoria : "Sin categoría";
+      document.getElementById("viewerMeta").textContent = meta;
+
+      const tieneEnlace = s.downloadUrl && s.downloadUrl.length > 5;
+
+      if (tieneEnlace) {
+        const urlVisor = s.viewUrl && s.viewUrl.length > 5 ? s.viewUrl : s.downloadUrl;
+        document.getElementById("viewerContent").innerHTML = `
+          <iframe src="${urlVisor}" class="w-full h-72 rounded-lg border border-slate-700 bg-slate-900"></iframe>
+          <p class="mt-2 text-[10px] text-slate-400">
+            El visor carga el PDF desde el enlace configurado (Drive, Dropbox u otro).
+          </p>
+        `;
+      } else {
+        const archivo = s.archivo || "Sermon.pdf";
+        document.getElementById("viewerContent").innerHTML = `
+          <p class="mb-2">Este es un sermón en formato PDF.</p>
+          <p class="text-emerald-300 text-xs">Archivo: <b>${archivo}</b></p>
+          <p class="mt-2 text-[11px] text-slate-300">
+            En la versión real, aquí se abriría un visor de PDF o un enlace directo al archivo.
+            Aún no se ha configurado un enlace de descarga para este sermón.
+          </p>
+        `;
+      }
+
+      const modal = document.getElementById("viewerModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeViewer() {
+      const modal = document.getElementById("viewerModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+    window.closeViewer = closeViewer;
+
+    function handleDownload(id) {
+      verificarFecha();
+      const plan = PLANES[currentPlan];
+      const s = sermones.find((x) => x.id === id);
+      if (!s) return;
+
+      if (plan.descargasDia === 0) {
+        alert("Tu plan actual no permite descargas. Sube al plan PLATA para habilitarlas.");
+        return;
+      }
+      if (plan.descargasDia !== Infinity && usage.descargasHoy >= plan.descargasDia) {
+        alert("Has alcanzado el límite de descargas de tu plan para hoy.");
+        return;
+      }
+
+      if (!s.downloadUrl || s.downloadUrl.length < 5) {
+        alert("Este sermón aún no tiene un enlace de descarga configurado. Pídele al administrador que lo agregue.");
+        return;
+      }
+
+      usage.descargasHoy++;
+      usage.descargasTotales++;
+      s.descargas = (s.descargas || 0) + 1;
+      saveState();
+      updateStatsUI();
+      renderSermones();
+
+      window.open(s.downloadUrl, "_blank");
+    }
+
+        // Subir sermón: envía los datos y el PDF al servidor de Drive (Apps Script)
+    document.getElementById("formSubir").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const titulo = document.getElementById("titulo").value.trim();
+      const resumen = document.getElementById("resumen").value.trim();
+      const categoria = document.getElementById("categoria").value.trim() || "Sin categoría";
+      const contacto = document.getElementById("contacto").value.trim();
+      const archivoInput = document.getElementById("archivoPdf");
+
+      if (!archivoInput.files || archivoInput.files.length === 0) {
+        alert("Por favor, selecciona un archivo PDF.");
+        return;
+      }
+
+      const file = archivoInput.files[0];
+
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+      }
+
+      let base64Data = "";
+      try {
+        base64Data = await toBase64(file);
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo leer el archivo. Intenta nuevamente.");
+        return;
+      }
+
+      const payload = {
+        titulo,
+        resumen,
+        categoria,
+        contacto,
+        archivo_nombre: file.name,
+        archivo_base64: base64Data,
+      };
+
+      try {
+        // Enviar datos al servidor de Drive (Google Apps Script)
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors", // importante: para evitar bloqueos CORS desde GitHub Pages / Netlify
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        // No podemos leer la respuesta por 'no-cors', pero si no hubo error de red
+        // asumimos que el servidor recibió el sermón correctamente.
+
+        const nuevo = {
+          id: "s" + Date.now(),
+          titulo,
+          resumen,
+          categoria,
+          contenido: "Sermón enviado por formulario y guardado en Drive.",
+          archivo: file.name,
+          // No podemos construir las URLs de descarga/visualización sin leer la respuesta,
+          // pero los datos quedan registrados en tu hoja de cálculo en Drive.
+          downloadUrl: "",
+          viewUrl: "",
+          premium: false,
+          precio: 0,
+          vistas: 0,
+          descargas: 0,
+        };
+        sermones.push(nuevo);
+        saveState();
+        updateCategoriasUI();
+        renderSermones();
+
+        alert("Sermón enviado. Revisa tu carpeta de Drive para confirmar que se guardó el PDF.");
+        e.target.reset();
+      } catch (error) {
+        console.error("Error al llamar al servidor de Drive:", error);
+        alert("Hubo un problema de conexión al intentar enviar el sermón. Intenta nuevamente más tarde.");
+      }
+    });
+
+document.getElementById("filtroCategoria").addEventListener("change", () => {
+      renderSermones();
+    });
+
+    // Modal plagio
+    function openReportModal() {
+      const modal = document.getElementById("reportModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+    function closeReportModal() {
+      const modal = document.getElementById("reportModal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+    window.openReportModal = openReportModal;
+    window.closeReportModal = closeReportModal;
+
+    
+    document.getElementById("formPlagio").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const tipo = document.getElementById("tipoPlagio").value;
+      const desc = document.getElementById("descPlagio").value.trim();
+      const url = document.getElementById("urlPlagio").value.trim();
+      const contacto = document.getElementById("contactoPlagio").value.trim();
+
+      const fecha = new Date().toISOString();
+
+      const templateParams = {
+        tipo,
+        descripcion: desc,
+        evidencia: url,
+        contacto,
+        fecha,
+      };
+
+      if (typeof emailjs === "undefined") {
+        console.warn("EmailJS no está configurado para el formulario de plagio/sugerencia.");
+        alert("Tu denuncia o sugerencia se ha registrado en esta demo. Falta conectar EmailJS para que llegue a tu correo.");
+        e.target.reset();
+        closeReportModal();
+        return;
+      }
+
+      emailjs
+        .send("TU_SERVICE_ID", "TU_TEMPLATE_ID_REPORTE", templateParams)
+        .then(() => {
+          alert("Tu denuncia o sugerencia se envió correctamente. ¡Gracias por escribirnos!");
+          e.target.reset();
+          closeReportModal();
+        })
+        .catch((error) => {
+          console.error("Error al enviar la denuncia/sugerencia con EmailJS:", error);
+          alert("Hubo un problema al enviar tu mensaje. Revisa la configuración de EmailJS o inténtalo de nuevo.");
+        });
+    });
+
+
+    // Anti copia y advertencias de captura
+    document.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      alert("Clic derecho deshabilitado para proteger el contenido.");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const key = e.key.toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ["c", "x", "v", "u", "s", "p"].includes(key)) {
+        e.preventDefault();
+        alert("Atajo bloqueado para proteger el contenido.");
+      }
+      if (e.key === "PrintScreen") {
+        alert("Intento de captura detectado. Recuerda que este contenido está protegido.");
+      }
+    });
+
+    // Pasarela inteligente (Ecuador => PayPhone, otros => PayPal/Stripe)
+    (function configurarPasarelaInteligente() {
+  try {
+    const ecButtons = document.querySelectorAll("[data-pay-ec]");
+    const intButtons = document.querySelectorAll("[data-pay-int]");
+    ecButtons.forEach(b => b.classList.remove("hidden"));
+    intButtons.forEach(b => b.classList.remove("hidden"));
+  } catch (err) {
+    console.warn("No se pudo configurar la pasarela. Se dejan botones visibles por defecto.");
+  }
+})();
+
+    // Inicialización
+    verificarFecha();
+    updatePlanUI();
+    updateStatsUI();
+    updateCategoriasUI();
+    renderSermones();
+  </script>
+</body>
+</html>
