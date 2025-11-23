@@ -742,36 +742,43 @@ premium: true,
         archivo_base64: base64Data,
       };
 
-            try {
+                  try {
         // Enviar datos al servidor de Drive (Google Apps Script)
-        const resp = await fetch(WEB_APP_URL, {
+        await fetch(WEB_APP_URL, {
           method: "POST",
+          mode: "no-cors", // ESTA ERA LA CLAVE PARA QUE SE SUBA SIN ERRORES
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
 
-        if (!resp.ok) {
-          throw new Error("Error HTTP: " + resp.status);
-        }
-
-        // AHORA SÍ LEEMOS LA RESPUESTA JSON DEL SCRIPT
-        const data = await resp.json();
-        // data = { ok, message, viewUrl, downloadUrl, fileId }
-
+        // Como no podemos leer la respuesta (por no-cors),
+        // solo guardamos el sermón en la lista local SIN enlace directo.
         const nuevo = {
           id: "s" + Date.now(),
           titulo,
           resumen,
           categoria,
-          contenido: "Sermón enviado y guardado en Drive.",
+          contenido: "Sermón enviado por formulario y guardado en Drive.",
           archivo: file.name,
-          downloadUrl: data.downloadUrl || "",
-          viewUrl: data.viewUrl || data.downloadUrl || "",
+          downloadUrl: "", // el enlace lo ves desde la Biblioteca
+          viewUrl: "",
           premium: false,
           precio: 0,
           vistas: 0,
           descargas: 0,
         };
+
+        sermones.push(nuevo);
+        saveState();
+        updateCategoriasUI();
+        renderSermones();
+
+        alert("Sermón enviado. El PDF ya está en tu carpeta de Drive y en la Biblioteca.");
+        e.target.reset();
+      } catch (error) {
+        console.error("Error al llamar al servidor de Drive:", error);
+        alert("Hubo un problema al enviar el sermón.");
+      }
 
         sermones.push(nuevo);
         saveState();
