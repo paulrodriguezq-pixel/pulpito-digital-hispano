@@ -639,15 +639,19 @@ premium: true,
           </p>
         `;
       } else {
-        const archivo = s.archivo || "Sermon.pdf";
-        document.getElementById("viewerContent").innerHTML = `
-          <p class="mb-2">Este es un sermón en formato PDF.</p>
-          <p class="text-emerald-300 text-xs">Archivo: <b>${archivo}</b></p>
-          <p class="mt-2 text-[11px] text-slate-300">
-            En la versión real, aquí se abriría un visor de PDF o un enlace directo al archivo.
-            Aún no se ha configurado un enlace de descarga para este sermón.
-          </p>
-        `;
+        // URL REAL DEL DRIVE → REEMPLAZA AQUÍ TU ENLACE
+const urlDrive = "https://drive.google.com/uc?export=download&id=1c5SJ_eqsvN30p_F8SMJVFw_Tua0QrNjs"; 
+
+document.getElementById("viewerContent").innerHTML = `
+  <div class="text-center">
+     <embed src="${urlDrive}" width="100%" height="500px" type="application/pdf" />
+
+     <a href="${urlDrive}" target="_blank"
+        class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
+        📥 Descargar ahora
+     </a>
+  </div>
+`;
       }
 
       const modal = document.getElementById("viewerModal");
