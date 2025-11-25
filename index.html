@@ -171,9 +171,7 @@
             </select>
           </div>
         </div>
-        <div id="sermonList" class="space-y-3 text-xs">
-          <!-- Se rellena por JS -->
-        </div>
+        <div id="sermonList" class="space-y-3 text-xs"></div>
         <p id="sinSermones" class="text-[11px] text-slate-500 mt-2 hidden">
           No hay sermones aún. Sube el primero en la sección “Subir sermón”.
         </p>
@@ -204,7 +202,7 @@
           </div>
           <div>
             <label class="block text-xs text-slate-300 mb-1">Datos de contacto del pastor (WhatsApp, correo, iglesia)</label>
-            <input id="contacto" type="text" min="0" step="0.01" placeholder="Ej: 3.00" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
+            <input id="contacto" type="text" class="w-full rounded-xl bg-slate-900 border border-white/10 px-3 py-2 text-xs" />
           </div>
         </div>
 
@@ -267,10 +265,8 @@
             Activar PLATA
           </button>
 
-          <!-- Pasarela inteligente -->
           <div class="mt-3 text-[11px] text-slate-400">
             <p class="mb-1">Pago real de suscripción:</p>
-            <!-- Ecuador: PayPhone -->
             <a
               data-pay-ec="plata"
               href="https://ppls.me/uis5X6KZy7nE4MPvoKFAA"
@@ -279,7 +275,6 @@
             >
               Pagar con PayPhone (Ecuador) 📲
             </a>
-            <!-- Internacional: PayPal/Stripe (ejemplo) -->
             <a
               data-pay-int="plata"
               href="https://www.paypal.com/ncp/payment/82VHJTPUYXQY6"
@@ -292,8 +287,6 @@
               *Pagos internacionales procesados a través de PayPal.
             </p>
           </div>
-        </div>
-
         </div>
       </div>
     </div>
@@ -398,26 +391,19 @@
     </div>
   </div>
 
-  
-  <!-- EmailJS: SDK y configuración -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
-      emailjs.init({
-        publicKey: "-fXbBWRAUBdQYvqqe",
-      });
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init({ publicKey: "-fXbBWRAUBdQYvqqe" });
     })();
   </script>
 
-  <!-- LÓGICA JS -->
-<script>
-    // URL del servidor (Google Apps Script) que guarda los PDF en Drive
+  <!-- LÓGICA PRINCIPAL -->
+  <script>
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzki52Vww5B0pa4a9X1wZyIOwANi2ZSV9U8ZzYRPZ9RnpAexlu6_qHhIRowj1q3glzGfw/exec";
-
-    // Año footer
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Configuración de planes (lógica de límites en el panel)
     const PLANES = {
       basico: {
         id: "basico",
@@ -434,15 +420,11 @@
         detalle: "Visualizaciones y descargas ilimitadas · Subir todos tus sermones en PDF",
       },
     };
-    // Aseguramos que el plan guardado exista (por si antes había plan ORO)
+
     let currentPlan = localStorage.getItem("pd_plan") || "basico";
-    if (!PLANES[currentPlan]) {
-      currentPlan = "basico";
-    }
+    if (!PLANES[currentPlan]) currentPlan = "basico";
 
-
-    // Estado inicial desde localStorage
-        let usage = JSON.parse(
+    let usage = JSON.parse(
       localStorage.getItem("pd_usage") ||
         JSON.stringify({
           fecha: new Date().toISOString().slice(0, 10),
@@ -454,26 +436,7 @@
     );
     let sermones = JSON.parse(localStorage.getItem("pd_sermones") || "[]");
 
-    // Reset único para limpiar biblioteca de demos y datos antiguos
-    const APP_VERSION = "2";
-    const storedVersion = localStorage.getItem("pd_version");
-    if (storedVersion !== APP_VERSION) {
-      localStorage.removeItem("pd_sermones");
-      localStorage.removeItem("pd_usage");
-      sermones = [];
-      usage = {
-        fecha: new Date().toISOString().slice(0, 10),
-        vistasHoy: 0,
-        descargasHoy: 0,
-        vistasTotales: 0,
-        descargasTotales: 0,
-      };
-      localStorage.setItem("pd_version", APP_VERSION);
-      saveState();
-    }
-
-
-        function verificarFecha() {
+    function verificarFecha() {
       const hoy = new Date().toISOString().slice(0, 10);
       if (usage.fecha !== hoy) {
         usage.fecha = hoy;
@@ -505,9 +468,7 @@
       const select = document.getElementById("filtroCategoria");
       const categorias = new Set();
       sermones.forEach((s) => {
-        if (s.categoria && s.categoria.trim() !== "") {
-          categorias.add(s.categoria.trim());
-        }
+        if (s.categoria && s.categoria.trim() !== "") categorias.add(s.categoria.trim());
       });
       const valorActual = select.value;
       select.innerHTML = '<option value="todas">Todas</option>';
@@ -517,9 +478,7 @@
         opt.textContent = cat;
         select.appendChild(opt);
       });
-      if ([...categorias, "todas"].includes(valorActual)) {
-        select.value = valorActual;
-      }
+      if ([...categorias, "todas"].includes(valorActual)) select.value = valorActual;
     }
 
     function renderSermones() {
@@ -529,9 +488,7 @@
 
       cont.innerHTML = "";
       let filtrados = sermones;
-      if (filtro !== "todas") {
-        filtrados = sermones.filter((s) => s.categoria === filtro);
-      }
+      if (filtro !== "todas") filtrados = sermones.filter((s) => s.categoria === filtro);
 
       if (filtrados.length === 0) {
         sinSermones.classList.remove("hidden");
@@ -581,11 +538,6 @@
           handleView(btn.getAttribute("data-id"));
         });
       });
-      cont.querySelectorAll(".btn-descargar").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          handleDownload(btn.getAttribute("data-id"));
-        });
-      });
     }
 
     function setPlan(planId) {
@@ -615,8 +567,7 @@
       renderSermones();
 
       document.getElementById("viewerTitle").textContent = s.titulo;
-      let meta = s.categoria ? s.categoria : "Sin categoría";
-      document.getElementById("viewerMeta").textContent = meta;
+      document.getElementById("viewerMeta").textContent = s.categoria || "Sin categoría";
 
       const tieneEnlace = s.downloadUrl && s.downloadUrl.length > 5;
 
@@ -628,7 +579,7 @@
             El visor carga el PDF desde el enlace configurado (Drive, Dropbox u otro).
           </p>
         `;
-            } else {
+      } else {
         const archivo = s.archivo || "Sermon.pdf";
         document.getElementById("viewerContent").innerHTML = `
           <p class="mb-2">Este es un sermón en formato PDF.</p>
@@ -659,123 +610,87 @@
     }
     window.closeViewer = closeViewer;
 
-    function handleDownload(id) {
-      verificarFecha();
-      const plan = PLANES[currentPlan];
-      const s = sermones.find((x) => x.id === id);
-      if (!s) return;
+    // Subir sermón (llama al Apps Script y guarda en local)
+    document.getElementById("formSubir").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      if (plan.descargasDia === 0) {
-        alert("Tu plan actual no permite descargas. Sube al plan PLATA para habilitarlas.");
-        return;
-      }
-      if (plan.descargasDia !== Infinity && usage.descargasHoy >= plan.descargasDia) {
-        alert("Has alcanzado el límite de descargas de tu plan para hoy.");
-        return;
-      }
+      const titulo = document.getElementById("titulo").value.trim();
+      const resumen = document.getElementById("resumen").value.trim();
+      const categoria = document.getElementById("categoria").value.trim() || "Sin categoría";
+      const contacto = document.getElementById("contacto").value.trim();
+      const archivoInput = document.getElementById("archivoPdf");
 
-      if (!s.downloadUrl || s.downloadUrl.length < 5) {
-        alert("Este sermón aún no tiene un enlace de descarga configurado. Pídele al administrador que lo agregue.");
+      if (!archivoInput.files || archivoInput.files.length === 0) {
+        alert("Por favor, selecciona un archivo PDF.");
         return;
       }
 
-      usage.descargasHoy++;
-      usage.descargasTotales++;
-      s.descargas = (s.descargas || 0) + 1;
-      saveState();
-      updateStatsUI();
-      renderSermones();
+      const file = archivoInput.files[0];
 
-      window.open(s.downloadUrl, "_blank");
-    }
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+      }
 
-// Subir sermón: envía los datos y el PDF al servidor de Drive (Apps Script)
-document.getElementById("formSubir").addEventListener("submit", async (e) => {
-  e.preventDefault();
+      let base64Data = "";
+      try {
+        base64Data = await toBase64(file);
+      } catch (err) {
+        console.error(err);
+        alert("No se pudo leer el archivo. Intenta nuevamente.");
+        return;
+      }
 
-  const titulo = document.getElementById("titulo").value.trim();
-  const resumen = document.getElementById("resumen").value.trim();
-  const categoria = document.getElementById("categoria").value.trim() || "Sin categoría";
-  const contacto = document.getElementById("contacto").value.trim();
-  const archivoInput = document.getElementById("archivoPdf");
+      const payload = {
+        titulo,
+        resumen,
+        categoria,
+        contacto,
+        archivo_nombre: file.name,
+        archivo_base64: base64Data,
+      };
 
-  if (!archivoInput.files || archivoInput.files.length === 0) {
-    alert("Por favor, selecciona un archivo PDF.");
-    return;
-  }
+      try {
+        await fetch(WEB_APP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
 
-  const file = archivoInput.files[0];
+        const nuevo = {
+          id: "s" + Date.now(),
+          titulo,
+          resumen,
+          categoria,
+          contenido: "Sermón enviado por formulario y guardado en Drive.",
+          archivo: file.name,
+          downloadUrl: "",
+          viewUrl: "",
+          premium: false,
+          precio: 0,
+          vistas: 0,
+          descargas: 0,
+        };
 
-  // Convertir el archivo a base64
-  function toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+        sermones.push(nuevo);
+        saveState();
+        updateCategoriasUI();
+        renderSermones();
+
+        alert("Sermón enviado. El PDF ya está en tu carpeta de Drive y aparecerá en la Biblioteca.");
+        e.target.reset();
+      } catch (error) {
+        console.error("Error al llamar al servidor de Drive:", error);
+        alert("Hubo un problema al enviar el sermón. Intenta nuevamente más tarde.");
+      }
     });
-  }
 
-  let base64Data = "";
-  try {
-    base64Data = await toBase64(file);
-  } catch (err) {
-    console.error(err);
-    alert("No se pudo leer el archivo. Intenta nuevamente.");
-    return;
-  }
-
-  const payload = {
-    titulo,
-    resumen,
-    categoria,
-    contacto,
-    archivo_nombre: file.name,
-    archivo_base64: base64Data,
-  };
-
-  try {
-    // Enviar datos al servidor de Drive (Google Apps Script)
-    await fetch(WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors",              // así estaba cuando sí subía al Drive
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    // Como no podemos leer la respuesta por "no-cors",
-    // solo guardamos el sermón en el panel, sin enlace directo.
-    const nuevo = {
-      id: "s" + Date.now(),
-      titulo,
-      resumen,
-      categoria,
-      contenido: "Sermón enviado por formulario y guardado en Drive.",
-      archivo: file.name,
-      downloadUrl: "",  // el link exacto lo ves en la Biblioteca/Drive
-      viewUrl: "",
-      premium: false,
-      precio: 0,
-      vistas: 0,
-      descargas: 0,
-    };
-
-    sermones.push(nuevo);
-    saveState();
-    updateCategoriasUI();
-    renderSermones();
-
-    alert("Sermón enviado. El PDF ya está en tu carpeta de Drive y aparecerá en la Biblioteca.");
-    e.target.reset();
-  } catch (error) {
-    console.error("Error al llamar al servidor de Drive:", error);
-    alert("Hubo un problema al enviar el sermón. Intenta nuevamente más tarde.");
-  }
-});
-
-document.getElementById("filtroCategoria").addEventListener("change", () => {
-      renderSermones();
-    });
+    document.getElementById("filtroCategoria").addEventListener("change", renderSermones);
 
     // Modal plagio
     function openReportModal() {
@@ -791,7 +706,7 @@ document.getElementById("filtroCategoria").addEventListener("change", () => {
     window.openReportModal = openReportModal;
     window.closeReportModal = closeReportModal;
 
-    
+    // Envío de plagio / sugerencia con EmailJS
     document.getElementById("formPlagio").addEventListener("submit", (e) => {
       e.preventDefault();
       const tipo = document.getElementById("tipoPlagio").value;
@@ -826,10 +741,8 @@ document.getElementById("filtroCategoria").addEventListener("change", () => {
           alert("Hubo un problema al enviar tu mensaje. Inténtalo de nuevo más tarde.");
         });
     });
-    });
 
-
-    // Anti copia y advertencias de captura
+    // Anti copia
     document.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       alert("Clic derecho deshabilitado para proteger el contenido.");
@@ -846,19 +759,18 @@ document.getElementById("filtroCategoria").addEventListener("change", () => {
       }
     });
 
-    // Pasarela inteligente (Ecuador => PayPhone, otros => PayPal/Stripe)
     (function configurarPasarelaInteligente() {
-  try {
-    const ecButtons = document.querySelectorAll("[data-pay-ec]");
-    const intButtons = document.querySelectorAll("[data-pay-int]");
-    ecButtons.forEach(b => b.classList.remove("hidden"));
-    intButtons.forEach(b => b.classList.remove("hidden"));
-  } catch (err) {
-    console.warn("No se pudo configurar la pasarela. Se dejan botones visibles por defecto.");
-  }
-})();
+      try {
+        const ecButtons = document.querySelectorAll("[data-pay-ec]");
+        const intButtons = document.querySelectorAll("[data-pay-int]");
+        ecButtons.forEach((b) => b.classList.remove("hidden"));
+        intButtons.forEach((b) => b.classList.remove("hidden"));
+      } catch (err) {
+        console.warn("No se pudo configurar la pasarela. Se dejan botones visibles por defecto.");
+      }
+    })();
 
-    // Inicialización
+    // INICIO
     verificarFecha();
     updatePlanUI();
     updateStatsUI();
