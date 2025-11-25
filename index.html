@@ -294,7 +294,6 @@
           </div>
         </div>
 
-        </div>
       </div>
     </div>
   </section>
@@ -398,12 +397,13 @@
     </div>
   </div>
 
-  <!-- EmailJS: librería e inicialización -->
-  <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
-  <script>
-    (function () {
-      // tu clave pública de EmailJS
-      emailjs.init("-fXbBWRAUBdQYvqqe");
+  <!-- EmailJS: SDK y configuración -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init({
+        publicKey: "-fXbBWRAUBdQYvqqe",
+      });
     })();
   </script>
 
@@ -592,11 +592,6 @@
           handleView(btn.getAttribute("data-id"));
         });
       });
-      cont.querySelectorAll(".btn-descargar").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          handleDownload(btn.getAttribute("data-id"));
-        });
-      });
     }
 
     function setPlan(planId) {
@@ -670,37 +665,7 @@
     }
     window.closeViewer = closeViewer;
 
-    function handleDownload(id) {
-      verificarFecha();
-      const plan = PLANES[currentPlan];
-      const s = sermones.find((x) => x.id === id);
-      if (!s) return;
-
-      if (plan.descargasDia === 0) {
-        alert("Tu plan actual no permite descargas. Sube al plan PLATA para habilitarlas.");
-        return;
-      }
-      if (plan.descargasDia !== Infinity && usage.descargasHoy >= plan.descargasDia) {
-        alert("Has alcanzado el límite de descargas de tu plan para hoy.");
-        return;
-      }
-
-      if (!s.downloadUrl || s.downloadUrl.length < 5) {
-        alert("Este sermón aún no tiene un enlace de descarga configurado. Pídele al administrador que lo agregue.");
-        return;
-      }
-
-      usage.descargasHoy++;
-      usage.descargasTotales++;
-      s.descargas = (s.descargas || 0) + 1;
-      saveState();
-      updateStatsUI();
-      renderSermones();
-
-      window.open(s.downloadUrl, "_blank");
-    }
-
-    // Subir sermón: envía los datos y el PDF al servidor de Drive (Apps Script)
+    // Subir sermón
     document.getElementById("formSubir").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -717,7 +682,6 @@
 
       const file = archivoInput.files[0];
 
-      // Convertir el archivo a base64
       function toBase64(file) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -746,16 +710,13 @@
       };
 
       try {
-        // Enviar datos al servidor de Drive (Google Apps Script)
         await fetch(WEB_APP_URL, {
           method: "POST",
-          mode: "no-cors", // así estaba cuando sí subía al Drive
+          mode: "no-cors",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
 
-        // Como no podemos leer la respuesta por "no-cors",
-        // solo guardamos el sermón en el panel, sin enlace directo.
         const nuevo = {
           id: "s" + Date.now(),
           titulo,
@@ -763,7 +724,7 @@
           categoria,
           contenido: "Sermón enviado por formulario y guardado en Drive.",
           archivo: file.name,
-          downloadUrl: "", // el link exacto lo ves en la Biblioteca/Drive
+          downloadUrl: "",
           viewUrl: "",
           premium: false,
           precio: 0,
@@ -809,7 +770,6 @@
       const desc = document.getElementById("descPlagio").value.trim();
       const url = document.getElementById("urlPlagio").value.trim();
       const contacto = document.getElementById("contactoPlagio").value.trim();
-
       const fecha = new Date().toISOString();
 
       const templateParams = {
@@ -856,7 +816,7 @@
       }
     });
 
-    // Pasarela inteligente (Ecuador => PayPhone, otros => PayPal/Stripe)
+    // Pasarela inteligente
     (function configurarPasarelaInteligente() {
       try {
         const ecButtons = document.querySelectorAll("[data-pay-ec]");
