@@ -401,7 +401,12 @@
 
   <!-- LÓGICA PRINCIPAL -->
   <script>
+    // Servidor para subir PDFs a Drive (ya lo tenías)
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzki52Vww5B0pa4a9X1wZyIOwANi2ZSV9U8ZzYRPZ9RnpAexlu6_qHhIRowj1q3glzGfw/exec";
+
+    // NUEVO: servidor para planes (hoja "pastores")
+    const PAYMENTS_API_URL = "https://script.google.com/macros/s/AKfycbxEGMDMr0Oq_hQJL2Fcr5xP5ExqzhomXmUOG40LsUVWcw4ZhbcWaoCMiiPEJXeLti0/exec";
+
     document.getElementById("year").textContent = new Date().getFullYear();
 
     const PLANES = {
@@ -480,6 +485,31 @@
       });
       if ([...categorias, "todas"].includes(valorActual)) select.value = valorActual;
     }
+
+    // NUEVO: consulta la hoja "pastores" y ajusta el plan real
+    async function verificarPlanPastor(email) {
+      if (!email) return;
+      try {
+        const res = await fetch(
+          PAYMENTS_API_URL + "?email=" + encodeURIComponent(email)
+        );
+        if (!res.ok) throw new Error("Respuesta HTTP " + res.status);
+        const data = await res.json();
+
+        if (data.plan === "plata" && String(data.activo).toUpperCase() === "TRUE") {
+          currentPlan = "plata";
+        } else {
+          currentPlan = "basico";
+        }
+
+        saveState();
+        updatePlanUI();
+      } catch (err) {
+        console.error("Error consultando plan del pastor:", err);
+      }
+    }
+    // disponible globalmente para que luego la llames tras el login
+    window.verificarPlanPastor = verificarPlanPastor;
 
     function renderSermones() {
       const cont = document.getElementById("sermonList");
@@ -776,6 +806,10 @@
     updateStatsUI();
     updateCategoriasUI();
     renderSermones();
+
+    // 🔧 PRUEBA MANUAL (opcional):
+    // abre la consola y escribe:
+    // verificarPlanPastor("correo@ejemplo.com");
   </script>
 </body>
 </html>
