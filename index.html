@@ -86,7 +86,8 @@
             <div class="p-4 space-y-3 text-[11px]">
               <div class="flex justify-between items-center">
                 <p class="font-semibold text-slate-100">Estadísticas de hoy</p>
-                <span class="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] text-indigo-100">
+                <!-- este badge también se actualizará con el plan -->
+                <span id="heroPlanBadge" class="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] text-indigo-100">
                   Plan BÁSICO
                 </span>
               </div>
@@ -457,10 +458,21 @@
       localStorage.setItem("pd_sermones", JSON.stringify(sermones));
     }
 
+    // ACTUALIZA TODOS LOS TEXTOS DEL PLAN (panel + hero)
     function updatePlanUI() {
       const plan = PLANES[currentPlan];
-      document.getElementById("labelPlan").textContent = plan.nombre;
-      document.getElementById("labelPlanDetalle").textContent = plan.detalle;
+
+      // Panel de control (arriba a la derecha)
+      const labelPlan = document.getElementById("labelPlan");
+      const labelPlanDetalle = document.getElementById("labelPlanDetalle");
+      if (labelPlan) labelPlan.textContent = plan.nombre;
+      if (labelPlanDetalle) labelPlanDetalle.textContent = plan.detalle;
+
+      // Badge del panel falso del HERO
+      const heroBadge = document.getElementById("heroPlanBadge");
+      if (heroBadge) {
+        heroBadge.textContent = (currentPlan === "plata") ? "Plan PLATA" : "Plan BÁSICO";
+      }
     }
 
     function updateStatsUI() {
@@ -486,7 +498,7 @@
       if ([...categorias, "todas"].includes(valorActual)) select.value = valorActual;
     }
 
-    // NUEVO: consulta la hoja "pastores" y ajusta el plan real
+    // CONSULTA LA HOJA "pastores" Y AJUSTA EL PLAN REAL
     async function verificarPlanPastor(email) {
       if (!email) return;
       try {
