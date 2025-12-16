@@ -86,7 +86,6 @@
             <div class="p-4 space-y-3 text-[11px]">
               <div class="flex justify-between items-center">
                 <p class="font-semibold text-slate-100">Estadísticas de hoy</p>
-                <!-- este badge también se actualizará con el plan -->
                 <span id="heroPlanBadge" class="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] text-indigo-100">
                   Plan BÁSICO
                 </span>
@@ -262,8 +261,11 @@
             <li>✔ Descargas ilimitadas</li>
             <li>✔ Subir todos tus sermones en PDF</li>
           </ul>
-          <button onclick="setPlan('plata')" class="mt-3 rounded-xl bg-indigo-500 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-400">
-            Activar PLATA
+          <button onclick="mostrarOpcionesPagoPlata()" class="mt-3 rounded-xl bg-indigo-500 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-400">
+            Pagar PLATA
+          </button>
+          <button onclick="verificarDespuesDePago()" class="mt-2 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 hover:bg-white/10">
+            Ya pagué ✅ Verificar activación
           </button>
 
           <div class="mt-3 text-[11px] text-slate-400">
@@ -458,21 +460,16 @@
       localStorage.setItem("pd_sermones", JSON.stringify(sermones));
     }
 
-    // ACTUALIZA TODOS LOS TEXTOS DEL PLAN (panel + hero)
     function updatePlanUI() {
       const plan = PLANES[currentPlan];
+      const lp = document.getElementById("labelPlan");
+      const lpd = document.getElementById("labelPlanDetalle");
+      if (lp) lp.textContent = plan.nombre;
+      if (lpd) lpd.textContent = plan.detalle;
 
-      // Panel de control (arriba a la derecha)
-      const labelPlan = document.getElementById("labelPlan");
-      const labelPlanDetalle = document.getElementById("labelPlanDetalle");
-      if (labelPlan) labelPlan.textContent = plan.nombre;
-      if (labelPlanDetalle) labelPlanDetalle.textContent = plan.detalle;
-
-      // Badge del panel falso del HERO
-      const heroBadge = document.getElementById("heroPlanBadge");
-      if (heroBadge) {
-        heroBadge.textContent = (currentPlan === "plata") ? "Plan PLATA" : "Plan BÁSICO";
-      }
+      // Badge de plan en el HERO (panel de ejemplo)
+      const hero = document.getElementById("heroPlanBadge");
+      if (hero) hero.textContent = (currentPlan === "plata") ? "Plan PLATA" : "Plan BÁSICO";
     }
 
     function updateStatsUI() {
@@ -498,7 +495,7 @@
       if ([...categorias, "todas"].includes(valorActual)) select.value = valorActual;
     }
 
-    // CONSULTA LA HOJA "pastores" Y AJUSTA EL PLAN REAL
+    // NUEVO: consulta la hoja "pastores" y ajusta el plan real
     async function verificarPlanPastor(email) {
       if (!email) return;
       try {
@@ -583,12 +580,46 @@
     }
 
     function setPlan(planId) {
+      if (planId === "plata") {
+        alert("El plan PLATA solo se activa después del pago y verificación.");
+        return;
+      }
       currentPlan = planId;
       saveState();
       updatePlanUI();
       alert("Plan actualizado a: " + PLANES[currentPlan].nombre + ".");
     }
     window.setPlan = setPlan;
+
+    // ======================
+    // Pago PLATA (sin activar plan desde el frontend)
+    // ======================
+    function mostrarOpcionesPagoPlata() {
+      const opcion = prompt(
+        "Elige método de pago para PLATA:\n" +
+        "1 = PayPhone (Ecuador)\n" +
+        "2 = PayPal / Tarjeta (Internacional)\n\n" +
+        "Escribe 1 o 2:"
+      );
+
+      if (opcion === "1") {
+        window.open("https://ppls.me/uis5X6KZy7nE4MPvoKFAA", "_blank");
+      } else if (opcion === "2") {
+        window.open("https://www.paypal.com/ncp/payment/82VHJTPUYXQY6", "_blank");
+      } else {
+        alert("Opción no válida. Intenta otra vez.");
+      }
+    }
+
+    function verificarDespuesDePago() {
+      const email = prompt("Escribe el correo del pastor (el mismo del pago):");
+      if (!email) return;
+      verificarPlanPastor(email);
+    }
+
+    window.mostrarOpcionesPagoPlata = mostrarOpcionesPagoPlata;
+    window.verificarDespuesDePago = verificarDespuesDePago;
+
 
     function handleView(id) {
       verificarFecha();
